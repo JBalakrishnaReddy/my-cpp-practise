@@ -19,12 +19,16 @@ void print_vector(vector<int> & vec, string msg = "")
 
 int main()
 {
-    // cout << "hello" << endl;
     vector<int> vec; //(1,2,3,4,5);
+    vec.reserve(5);
+    cout << "vec size: " << vec.size() << " vec max size: " << vec.max_size() << " vec cap: "<< vec.capacity() << endl;
     int arr[] = {1,2,3,4,5};
-    for(int i=0; i<5;i++)
+    for(int i=0; i<5;i++){
         vec.push_back(arr[i]);
-    
+        // cout << "vec size: " << vec.size() <<" vec cap: "<< vec.capacity() << endl;
+    }
+    // cout << "vec size: " << vec.size() << " vec max size: " << vec.max_size() << " vec cap: "<< vec.capacity() << endl;
+    // cout << vec.back() << vec.back() << endl;
     int arr2[] = {3,5,6,7,9};
     vector<int> vec2; 
     for(int i=0; i<5;i++)
@@ -37,15 +41,5 @@ int main()
     print_vector(vec);
     print_vector(vec2);
 
-    // for (vector <int>::iterator i= vec.begin(); i!= vec.end(); i++)
-    // {    
-    //     cout << *i << ", ";
-    // }
-    // for (int i = 0; i < vec.size(); i++)
-    // {
-    //     cout << vec[i] << " "; 
-    // }
-    // cout << endl;
-    // // vector<int> v2(1,2,3,4,5);
     return 0;
 }

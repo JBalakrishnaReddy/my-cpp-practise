@@ -1,33 +1,30 @@
-
 #include <iostream>
-#include <cstddef>
-#include <stdbool.h>
 #include <vector>
-#include <algorithm>
+#include <forward_list>
+#include <list>
+
 
 using namespace std;
 
-void print(int a )
-{
-    cout << a << ',' ;
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
 
+ListNode *func(){
+    ListNode *head;
+    head = new ListNode(9);
+    head->next = new ListNode(5);
+    head->next->next = new ListNode(3);
+    return head;
 }
 
-int main(){
-    // int arr[] = {1,2,3,4,5};
-    // vector<int> vec;
-    // for(int i =0; i<10; i++)
-    // {
-    //     vec.push_back(i);
-    // }
-    // for_each(vec.begin(), vec.end(), print);
-    // cout << endl;
-    //
+int main()
+{
+    ListNode *head = func();
 
-    // for (vector<int>:: iterator i =vec.begin(); i!=vec.end(); i++)
-    // {
-    //     cout << *i << ',';
-    // }
-    // for_each(vec.begin(), vec.end(), print);
     return 0;
 }
