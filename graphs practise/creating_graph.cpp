@@ -5,6 +5,7 @@
 #include <array>
 #include <vector>
 #include <list>
+#include <stack>
 
 using namespace std;
 
@@ -60,12 +61,12 @@ void print_nodes(vector<vector<Edge> > &lis){
 
 }
 
-void bfs(vector<vector<Edge> > &lis, int vertices){
+void bfs(vector<vector<Edge> > &lis, int vertices)  // O(V+E)
+{
     queue<int> q;
     vector<bool> vis(vertices, false);// {false,false,false,false,false,false,false};
     for(int i=0; i<vertices; i++){
         if(vis[i] == false){
-            // q.push(lis[0][0].src);
             q.push(lis[i][0].src);
             while(!q.empty()){
                 int current = q.front();
@@ -81,13 +82,36 @@ void bfs(vector<vector<Edge> > &lis, int vertices){
     cout << endl;
 }
 
+void dfs(vector<vector <Edge> > &lis, int current, vector<bool>& vis){  // Time complexity O(V+E)
+    cout << current << ", ";
+    vis[current] = true;
+    for(int i=0; i< lis[current].size(); i++)   if( vis[lis[current][i].des] == false)  dfs(lis, lis[current][i].des, vis);
+}
+
+void printAllPathstoTarget(vector<vector<Edge> > &lis, vector<bool> &vis, int current, string path, int target){
+    // We use dfs algorithm for this problem
+    if(vis[current] == true) return;
+    path += to_string(current);
+    if(current == target){
+        cout << path << endl;
+        return;
+    }
+    vis[current] = true;
+    for(int i=0; i < lis[current].size(); i++){
+        printAllPathstoTarget(lis, vis, lis[current][i].des, path, target);
+    }
+    vis[current] = false;
+
+}
 
 int main(){
     int vertices = 7;
     vector<vector<Edge> > lis = get_graph();
     // print_nodes(lis);
-    bfs(lis, vertices);
-
-
+    // bfs(lis, vertices);
+    vector<bool> vis(vertices, false);
+    // dfs(lis, lis[0][0].src, vis);
+    printAllPathstoTarget(lis, vis, 0, "", 5);
+    cout << endl;
     return 0;
 }
