@@ -52,6 +52,29 @@ vector<vector<Edge> > get_graph(){
     return lis;
 }
 
+vector<vector<Edge> > get_directed_graph(){
+    /*  
+    */
+    vector<vector<Edge> > lis;
+    // lis.resize(4);
+    // lis[0].push_back(Edge(0, 2));
+    // lis[1].push_back(Edge(1, 0));
+    // lis[2].push_back(Edge(2, 3));
+    // lis[3].push_back(Edge(3, 1));
+    lis.resize(5);
+    lis[0].push_back(Edge(0,1));
+    
+    lis[2].push_back(Edge(2,1));
+    lis[2].push_back(Edge(2,3));
+    
+    lis[3].push_back(Edge(3,4));
+    lis[4].push_back(Edge(4,2));
+
+
+
+    return lis;
+}
+
 void print_nodes(vector<vector<Edge> > &lis){
     for(auto i:lis){
         for(auto j:i){
@@ -90,28 +113,50 @@ void dfs(vector<vector <Edge> > &lis, int current, vector<bool>& vis){  // Time 
 
 void printAllPathstoTarget(vector<vector<Edge> > &lis, vector<bool> &vis, int current, string path, int target){
     // We use dfs algorithm for this problem
-    if(vis[current] == true) return;
-    path += to_string(current);
     if(current == target){
         cout << path << endl;
         return;
     }
     vis[current] = true;
     for(int i=0; i < lis[current].size(); i++){
-        printAllPathstoTarget(lis, vis, lis[current][i].des, path, target);
+        if(vis[lis[current][i].des] == false)
+            printAllPathstoTarget(lis, vis, lis[current][i].des, path + to_string(current), target);
     }
     vis[current] = false;
 
 }
 
+bool doesGraphHasCycle(vector<vector<Edge>> &graph, vector<bool> &vis, int current, vector<bool> &recStack){
+    vis[current] = true;
+    recStack[current] = true;
+
+    for (int i=0; i< graph[current].size(); i++){
+        Edge e = graph[current][i];
+        if(recStack[e.des] == true) return true;
+        if(!vis[e.des] && doesGraphHasCycle(graph, vis, e.des, recStack) == true)  return true;
+        // if(doesGraphHasCycle(graph, vis, e.des, recStack)) return true;
+    }
+    recStack[current] = false;
+    return false;
+}
+
 int main(){
-    int vertices = 7;
-    vector<vector<Edge> > lis = get_graph();
-    // print_nodes(lis);
-    // bfs(lis, vertices);
-    vector<bool> vis(vertices, false);
-    // dfs(lis, lis[0][0].src, vis);
-    printAllPathstoTarget(lis, vis, 0, "", 5);
+    {
+        // int vertices = 7;
+        // vector<vector<Edge> > lis = get_graph();
+        // print_nodes(lis);
+        // bfs(lis, vertices);
+        // vector<bool> vis(vertices, false);
+        // dfs(lis, lis[0][0].src, vis);
+        // printAllPathstoTarget(lis, vis, 0, "", 5);
+    }
+    {
+        vector<vector<Edge> > graph = get_directed_graph();
+        int vertices = 5;
+        vector<bool> vis(vertices, false);
+        vector<bool> recStack(vertices, false);
+        cout << doesGraphHasCycle(graph, vis, 1, recStack) << endl;
+    }
     cout << endl;
     return 0;
 }
